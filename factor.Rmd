@@ -1,0 +1,59 @@
+---
+title: "Factors"
+author: "Hans"
+date: "10/21/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(pacman)
+p_load(tidyverse)
+p_load(nycflights13)
+p_load(ggplot2)
+p_load(gridExtra)
+p_load("forcats")
+theme_set(theme_minimal())
+```
+
+```{r}
+str(gss_cat)
+
+head(gss_cat)
+
+levels(gss_cat$marital)
+levels(gss_cat$race)
+
+gss_cat %>%
+  count(race)
+
+gss_cat %>%
+  ggplot(aes(race)) +
+  geom_bar()
+
+gss_cat %>%
+  count(marital)
+
+gss_cat %>%
+  ggplot(aes(marital)) +
+  geom_bar()
+
+gss_cat %>%
+  count(relig)
+
+relig <- gss_cat %>%
+  group_by(relig) %>%
+  summarise(
+    age = mean(age, na.rm = TRUE),
+    tvhours  = mean(tvhours, na.rm = TRUE),
+    n = n()
+  )
+
+ggplot(data = relig, aes(x = tvhours, y = relig)) +
+  geom_point()
+
+ggplot(data = relig, aes(x = tvhours, y = fct_reorder(relig, tvhours, .desc=FALSE))) +
+  geom_point()
+
+```
+
